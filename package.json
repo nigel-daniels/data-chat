@@ -1,0 +1,19 @@
+{
+  "name": "data-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nigel-daniels/data-chat.git"
+  },
+  "author": "Nigel Daniels",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nigel-daniels/data-chat/issues"
+  },
+  "homepage": "https://github.com/nigel-daniels/data-chat#readme"
+}

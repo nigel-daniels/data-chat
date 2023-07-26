@@ -1,0 +1,18 @@
+Retrieval Augmented Generation
+------------------------------
+
+Vector Store Loading
+
+			Document Loading	Splitting			Storage
+
+	URLs  |
+	PDFs  |-   Documents    =>    Splits     =>    Vector Store
+	DB	  |
+
+
+Retrieval
+
+ 					  Storage		  Retrieval			   Output
+
+	Question     =>    Vector   =>     Relevant     =>  Prompt -> LLM    => Answer
+	'Query'			   Store			Splits
