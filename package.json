@@ -19,7 +19,9 @@
   "homepage": "https://github.com/nigel-daniels/data-chat#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "chromadb": "^1.5.5",
     "langchain": "^0.0.118",
+    "numjs": "^0.16.1",
     "pdf-parse": "^1.1.1"
   }
 }

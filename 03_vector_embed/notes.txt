@@ -1,0 +1,67 @@
+Vector Stores and Embeddings
+----------------------------
+
+Embeddings
+----------
+
+    Text  -> Split -> Embedding -> [-0.003530, -0.010379, ..., 0.005863]
+                                        /
+                                       /
+                                      /
+    - Embedding vector captures content/meaning
+    - Text with similar content has similar vectors
+
+For Example:
+    1) My dog rover likes to chase squirrels.
+    2) Fluffy, my cat refuses to eat from a can.
+    3) The Chevy Bolt accelerates to 60 mph in 6.7 seconds.
+
+    My dog... -> Embedding -> [-0.003530, -0.010379, ..., 0.005863]
+                                                                    \
+                                                                     similar
+                                                                    /
+    Fluffy... -> Embedding -> [-0.003540, -0.010369, ..., 0.005265]
+                                                                    \
+                                                                     not similar
+                                                                    /
+    The Che... -> Embedding -> [-0.603530, -0.040329, ..., 0.7058633]
+
+
+    Vector Store
+    ------------
+    Create							Vector Database
+                            ______________________________________________
+     split -> Embedding -> | [-0.003530, -0.010379, ..., 0.005863], split |
+    /split -> Embedding -> | [-0.003540, -0.010369, ..., 0.005265], split |
+TEXT  ...   			   |											  |
+TEXT  ...				   |											  |
+TEXT  ...				   |											  |
+TEXT  ...				   |											  |
+    \ ...				   |											  |
+     split -> Embedding -> | [-0.603530, -0.040329, ..., 0.705863], split |
+                            -----------------------------------------------
+                                        embedding vectors          original
+                                                                    split
+
+
+    Index
+                        ______________________________________________
+                    /  | [-0.003530, -0.010379, ..., 0.005863], split |
+                   /   | [-0.003540, -0.010369, ..., 0.005265], split | -> similar a
+                  /	   |	...										  |
+query -> embedding	   |	...										  |
+                  \	   |	...										  |
+                   \   |	...										  |
+                    \  | [-0.603530, -0.040329, ..., 0.705863], split | -> similar b
+                        -----------------------------------------------
+                compare                                                     n most
+                entries                                                     similar
+
+
+    Process with LLM
+
+    query       \
+    similar a     LLM  -> answer
+    similar b   /
+
+    

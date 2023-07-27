@@ -1,0 +1,106 @@
+Retrieval
+---------
+
+                  Storage		  Retrieval			   Output
+
+Question     =>    Vector   =>     Relevant     =>  Prompt -> LLM    => Answer
+'Query'			   Store			Splits
+
+
+-   Accessing/indexing the data in the vector store
+    - Basic semantic similarity
+    - Maximum marginal relevance
+    - Including metadata
+
+-   LLM Aided Retrieval
+
+
+Maximal Marginal Relevance (MMR)
+--------------------------------
+-   You may not aways want to choose the most similar responses.
+
+    For example, if a chef asks:
+        "tell me about all-white mushrooms with large fruiting bodies"
+
+
+Vector Store
+    a:  The Amanita phalloides has large and imposing epigeous (aboveground)
+        fruiting body (basidiocarp).
+    b:  A mushroom with a large fruiting body is the Aminata phalloides.
+        Some varieties are all-white.
+    c:  AA. phalloides, a.k.a Death Cap, is one of the most poisonous of all
+        known mushrooms.
+
+    a + b : Most similar
+
+    b + c : MMR
+
+MMR Algorithm
+-------------
+
+- Query the vector store
+- Choose the 'fetch_k' most similar responses.
+- Within those responses choose the 'k' most diverse
+
+    query
+      |
+      \/
+    Vector      Top 'fetch_k'      Most
+    Store        responses        diverse
+    =======        =======        =======
+    =======
+    =======   ->   =======   ->
+    =======        =======        =======
+    =======
+      ...
+    =======        =======
+
+
+LLM Aided Retrieval
+-------------------
+-   There are several situations where the Query applied to the DB is more
+    than just the Question asked.
+-   One is SelfQuery, where we use an LLM to convert the user question
+    into a query.
+
+    question           'What are some movies
+                          about aliens made
+                              in 1980?'
+                                  |
+                                  \/
+                             Query Parser
+                                  |
+                                  \/
+                        Filter          Search Term
+                   eq('year', 1980)       'Aliens'
+
+Compression
+-----------
+-   Increase the number of results you can put in the context by shrinking the
+    responses to only the relevant information.
+
+
+            Question -----
+               |         |
+               \/        |
+             Store       |
+               |         |
+               \/        |
+             ======      |
+  Relevant   ======      |
+   splits    ======      |
+             ======      |
+               |         |
+               \/        |
+          Compression <--|
+              LLM        |
+               |         |
+               \/        |
+Compressed   ======      |
+rel. splits  ======      |
+               |         |
+               \/        |
+              LLM <-------
+
+The trade off is more calls to the LLM in return for more relevant splits
+for the final answer.
