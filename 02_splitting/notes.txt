@@ -1,0 +1,47 @@
+Having loaded data we need to split it into pieces for storage and consumption
+by the LLM. However we need to be careful how the splits take place.
+
+For example: "... on this model. The Toyota Camry has a head-snapping 80 HP
+			 and and eight-speed automatic transmission that will..."
+
+If we just split on char count we could get:
+	chunk1: on this model. The Toyota Camry has a head-snapping
+	chunk2: 80 HP and and eight-speed automatic transmission that will
+
+	Question: What are the specifications on the Camry?
+
+With the simple strategy we cannot answer the above, therefore most text
+splitters allow for some over lap:
+
+	CharacterTextSplitter({
+		separator: 		'\n\n',
+		chunkSize: 		4000,
+		chunkOverlap: 	200,
+		lengthFunction: func
+	});
+
+	Methods:
+		createDocuments(); // create docs from texts
+		splitDocuments();  // split documents
+
+		 a1 | ----------------------------------------------
+Chunk	 a2 | ----------------------------------------------
+ size	 a3 | ----------------------------------------------
+		 a4 | ---------------------------------------------- b1 | Chunk overlap
+		  	  ---------------------------------------------- b2
+		      ---------------------------------------------- b3
+		      ---------------------------------------------- b4
+
+Types of splitter:
+- CharacterTextSplitter:	Splits text by looking at the characters
+- MarkDownTextSplitter:		Splits based on MD headers
+- TokenTextSplitter:		Splits looking at the tokens
+- SentenceTransformersTokenTextSplitter: Splits based on tokens
+- RecursiveCharacterTextSplitter: Splits looking at characters and recursively
+							attempts to find best fit.
+- Language:					Splits based on computer language
+- NLTKTextSplitter:			Splits sentences based on the Natural Language
+							Tool Kit (NLTK)
+- SpacyTextSplitter:		Splits using Spacy
+
+Some text splitters enrich the metadata and some are document specific.

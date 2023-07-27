@@ -1,0 +1,42 @@
+Loaders
+-------
+- Deal with the specifics of accessing and converting data.
+	Accessing
+		- Web sites
+		- Databases
+		- You Tube
+		- arXiv
+		- ...
+	Data Types
+		- PDF
+		- HTML
+		- JSON
+		- docx, pptx, ...
+
+- Returns a list of 'Document' object:
+	[
+	Document(page_content='MachineLearning-Lecture01 \nInstructor (Andrew Ng): Okay, Good morning. Welcome to CS299...',
+		metadata={'source': 'docs/cs299_lectires/MachineLearning-Lecture01.pdf', 'page': 0}),
+	...
+	Document(page_content='[End of Audio] \nDuration: 69 minutes',
+		metadata={'source': 'docs/cs299_lectires/MachineLearning-Lecture01.pdf', 'page': 21})
+	]
+
+Document Loaders
+
+There are 80+ :
+
+
+			Unstructured			    Structured
+								|
+				Web sites		|		HF dataset
+Public			You Tube		|		 REST/JSON
+				 Twitter		|			etc
+				 	etc			|
+			------------------------------------------
+			(personal/co. data) |		Spreadsheets
+Proprietary 		docs 		|		private APIs
+					pdf	   ------------
+					etc.  | doc stores |
+						  |   DBMS     |
+						  
