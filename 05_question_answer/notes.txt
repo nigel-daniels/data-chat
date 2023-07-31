@@ -1,0 +1,84 @@
+Question Answering
+------------------
+
+                  Storage		  Retrieval			   Output
+
+Question     =>    Vector   =>     Relevant     =>  Prompt -> LLM    => Answer
+'Query'			   Store			Splits
+
+- 	Multiple relevant documents have been retrieved from the vector store.
+- 	Potentially compress the relevant splits to fit the LLM context.
+- 	Send the information along with our question to an LLM to select and
+	format an answer.
+
+RetrievalQA chain
+-----------------
+
+RetrievalQA.fromChainType(..., chainType: 'stuff', ...);
+
+			Question -----
+			   |         |
+			   \/        |
+			 Store       |
+			   |         |
+			   \/        |
+			 ======      |
+  Relevant   ======      |
+   splits    ======      |
+			 ======      |
+			   |         |
+			   \/        \/
+		     System:   Human:
+			 Prompt   Question
+		   |                   |
+		   ---------------------
+                     |
+					 \/
+					LLM
+					 |
+					 \/
+				   Answer
+
+3 Additional Methods
+--------------------
+
+1. map_reduce
+		  chunk -> LLM \
+		/ chunk -> LLM  \
+	Docs   ...			  LLM -> Final answer
+		\  ...          /
+		  chunk -> LLM /
+
+	In the map reduce approach the documents are broken into chunks, each chunk
+	goes to an LLM then all of the results are collated by a final LLM call.
+
+	Pros:	Fast to process and scales well to any number/size of documents
+	Cons:	Takes multiple calls, and each chunk is dealt with as an independent
+			document, so this may not work for all types of document.
+
+2. refine
+		  chunk -> LLM \
+		/ chunk ------> LLM
+	Docs   ...		      \
+		\  ...             \
+		  chunk ----------> LLM -> Final answer
+
+	When refining each chunk goes to the LLM as does the output of any prior
+	chunks until the final chunk is processed giving the result.
+
+	Pros:	This is good for building up an answer over time.
+	Cons: 	This takes almost as many calls as Map reduce and as they are
+			sequential it can be slow.
+
+3. map_rerank
+		  chunk -> LLM -> 40 |
+		/ chunk -> LLM -> 91 |
+	Docs   ...			  	 |-> select highest score -> Final answer
+		\  ...               |
+		  chunk -> LLM -> 33 |
+
+	This is like map reduce but uses scores to pick the result. You need to
+	let the LLM know how to score.
+
+	Pros:	Fast to process and scales well.
+	Cons:	This does use a lot of LLM calls.
