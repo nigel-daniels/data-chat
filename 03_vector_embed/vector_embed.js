@@ -2,7 +2,7 @@ import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { Chroma } from 'langchain/vectorstores/chroma';
-import nj from 'numjs';
+import nj from '@neurosity/numjs';
 
 // In loading the docs we deliberately load lecture 01 twice to simulate
 // having some bad data
@@ -55,20 +55,19 @@ console.log('E2 to E3 similarity: ' + nj.dot(embed2, embed3));
 // Now lets work with some actual documents
 console.log('\nEmbedding Docs\n--------------');
 
-// To use chroma follw the LangChain JS instructions, data is persisted in the chroma directory
-/*
+// To use Chroma follow the LangChain JS instructions, data is persisted in the chroma directory
 let vectorStore = await Chroma.fromDocuments(
     splits,
     embedding,
     { collectionName: 'test-collection' }
 );
-*/
+
 
 // Lets resuse the persisted store
-let vectorStore = await Chroma.fromExistingCollection(
+/*let vectorStore = await Chroma.fromExistingCollection(
     embedding,
     { collectionName: 'test-collection' }
-);
+);*/
 
 console.log('Vector store ready.');
 

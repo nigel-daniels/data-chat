@@ -55,6 +55,7 @@ MMR Algorithm
       ...
     =======        =======
 
+NOTE: Currently this is not implemented in the JS version of the API
 
 LLM Aided Retrieval
 -------------------
@@ -104,3 +105,13 @@ rel. splits  ======      |
 
 The trade off is more calls to the LLM in return for more relevant splits
 for the final answer.
+
+
+Other Retrieval Types
+---------------------
+
+Some that do not use a Vector Database are:
+- SVM
+- TF-IDV
+
+NOTE: These are currently not available in the JS API
