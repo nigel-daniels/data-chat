@@ -1,0 +1,41 @@
+Chat
+----
+
+                  Storage		  Retrieval			   Output
+
+Question     =>    Vector   =>     Relevant     =>  Prompt -> LLM    => Answer
+'Query'			   Store			Splits
+
+- 	We've worked through the above but cannot yet have a conversation,
+    for this we need memory in the form of the Chat History.
+
+Conversational retrieval chain
+------------------------------
+
+ConversationalRetrievalChain.fromLLM(llm , vectorStore.asRetriever(), memory: memory);
+
+ -> Chat History <- Question
+ |           |        |
+ |           \/       \/
+ |  	    Condense LLM -----
+ |  (stand-alone   |         |
+ |   question)	   \/        |
+ |  		   Retriever     |
+ |  			   |         |
+ |  			   \/        |
+ |  			 ======      |
+ |    Relevant   ======      |
+ |     splits    ======      |
+ |  			 ======      |
+ |  			   |         |
+ |  			   \/        \/
+ |  		     System:   Human:
+ |  			 Prompt   Question
+ |  		   |                   |
+ |  		   ---------------------
+ |                       |
+ |  					 \/
+ |  					LLM
+ |  					 |
+ |  					 \/
+ --------------------- Answer
