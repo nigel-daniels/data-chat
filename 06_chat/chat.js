@@ -72,10 +72,10 @@ let qaMemoryChain = ConversationalRetrievalQAChain.fromLLM(
 
 let question3 = 'Is probability a class topic?';
 
-let result3 = await qaMemoryChain.call({'query': question3});
+let result3 = await qaMemoryChain.call({question: question3});
 console.log('result: '+ result3.text);
 
 let question4 = 'why are those prerequesites needed?';
 
-let result4 = await qaMemoryChain.call({'query': question4});
+let result4 = await qaMemoryChain.call({question: question4});
 console.log('\nresult: '+ result4.text);
