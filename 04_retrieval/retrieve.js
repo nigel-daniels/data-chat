@@ -21,7 +21,7 @@ console.log('Test collection: ' + collectionCount1);
 
 console.log('\nLoad Text\n---------');
 // FIRST RUN ONLY (then use the commented code below and comment out this section above it)
-let texts = [
+/*let texts = [
     'The Amanita phalloides has a large and imposing epigeous (aboveground) fruiting body (basidiocarp).',
     'A mushroom with a large fruiting body is the Amanita phalloides. Some varieties are all-white.',
     'A. phalloides, a.k.a Death Cap, is one of the most poisonous of all known mushrooms.'
@@ -36,35 +36,38 @@ let vectorStore2 = await Chroma.fromTexts(
     embedding,
 	{ collectionName: 'mushroom-collection' }
 );
-/*
+*/
 let vectorStore2 = await Chroma.fromExistingCollection(
     embedding,
     { collectionName: 'mushroom-collection' }
 );
-*/
+
 let question1 = 'Tell me about all-white mushrooms with large fruiting bodies';
 
 let results1 = await vectorStore2.similaritySearch(question1, 2);
 console.log('Similarity Search: ' + JSON.stringify(results1));
 
-// NOTE: At the time of writing the MMR Search is not implemented in the JS library
+let results2 = await vectorStore2.maxMarginalRelevanceSearch(question1, {k:2, fetchK: 3});
+console.log('Similarity Search: ' + JSON.stringify(results2));
 
 console.log('\nLectures MMR\n--------------');
 let question2 = 'what did they say about matlab?';
 
-let results2 = await vectorStore1.similaritySearch(question2, 3);
-console.log('Sim Search [0]: ' + JSON.stringify(results2[0].pageContent.substring(0, 100)));
-console.log('Sim Search [1]: ' + JSON.stringify(results2[1].pageContent.substring(0, 100)));
+let results3 = await vectorStore1.similaritySearch(question2, 3);
+console.log('Sim Search [0]: ' + JSON.stringify(results3[0].pageContent.substring(0, 100)));
+console.log('Sim Search [1]: ' + JSON.stringify(results3[1].pageContent.substring(0, 100)));
 
 
-// NOTE: At the time of writing the MMR Search is not implemented in the JS library
+let results4 = await vectorStore1.maxMarginalRelevanceSearch(question2, {k: 3});
+console.log('Sim Search [0]: ' + JSON.stringify(results4[0].pageContent.substring(0, 100)));
+console.log('Sim Search [1]: ' + JSON.stringify(results4[1].pageContent.substring(0, 100)));
 
 
 console.log('\nSpecifity Metadata\n------------------');
 let question3 = 'what did they say about regression in the third lecture?';
 
-let results4 = await vectorStore1.similaritySearch(question2, 3, {'source':'../data/MachineLearning-Lecture03.pdf'});
-for (const result of results4) {
+let results5 = await vectorStore1.similaritySearch(question2, 3, {'source':'../data/MachineLearning-Lecture03.pdf'});
+for (const result of results5) {
     console.log('source: ' + result.metadata.source);
 }
 
@@ -96,8 +99,8 @@ let retriever1 = SelfQueryRetriever.fromLLM({
 });
 console.log('Created retriever');
 
-let results5 = await retriever1.getRelevantDocuments(question3);
-for (const result of results4) {
+let results6 = await retriever1.getRelevantDocuments(question3);
+for (const result of results6) {
     console.log('source: ' + result.metadata.source);
 }
 
@@ -109,9 +112,9 @@ let retriever2 = new ContextualCompressionRetriever({
 	baseRetriever: vectorStore1.asRetriever()
 });
 
-let results6 = await retriever2.getRelevantDocuments(question2);
+let results7 = await retriever2.getRelevantDocuments(question2);
 
-console.log(printDocs(results6));
+console.log(printDocs(results7));
 
 console.log('\nCompression + MMR\n-----------------');
 // NOTE: At the time of writing the MMR Search is not implemented in the JS library

@@ -21,7 +21,7 @@
     "@neurosity/numjs": "^0.16.2",
     "cheerio": "^1.0.0-rc.12",
     "chromadb": "^1.5.5",
-    "langchain": "^0.0.120",
+    "langchain": "^0.0.124",
     "pdf-parse": "^1.1.1",
     "peggy": "^3.0.2"
   }
